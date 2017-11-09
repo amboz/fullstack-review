@@ -9,7 +9,7 @@ let repoSchema = mongoose.Schema({
     login: String,
     id: Number,
     avatar_url: String,
-    repos_url: String,
+    repos_url: String
   },
   private: Boolean,
   html_url: String,
@@ -33,7 +33,7 @@ let save = (repoObj) => {
       login: repoObj.owner.login,
       id: repoObj.owner.id,
       avatar_url: repoObj.owner.avatar_url,
-      repos_url: repoObj.owner.repos_url,
+      repos_url: repoObj.owner.repos_url
     },
     private: repoObj.private,
     html_url: repoObj.html_url,
@@ -62,7 +62,6 @@ let grabTopRepos = () => {
       }).
       limit(25).
       sort({watchers: -1}).
-      select({name: 1, owner: 1, description: 1, watchers: 1}).
       exec(console.log('fetched from db!!'));
   return topRepos;
 }
