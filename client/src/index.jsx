@@ -33,6 +33,17 @@ class App extends React.Component {
         query: term
       }
     });
+
+    // $.ajax('/repos', {
+    //   method: 'GET',
+    //   dataType: 'json',
+    //   success: function(data) {
+    //     this.setState({
+    //       repos: data
+    //     })
+    //   }.bind(this)
+    // })
+
   }
 
   render () {
