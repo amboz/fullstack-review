@@ -23,17 +23,8 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repoObj) => {
-  // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
-  //iterate over array of repos
-  // var newDocs = [];
-  // for (var i = 0; i < responsebody.length; i++) {
-  //   newDocs.push(n)
-  // }
-
-  console.log('reached save!')
-
   let createdRepo = new Repo({
     id: repoObj.id,
     name: repoObj.name,
@@ -63,4 +54,18 @@ let save = (repoObj) => {
 // See the tips section about considering unique columns.
 }
 
+let grabTopRepos = () => {
+  var topRepos = 
+    Repo.
+      find({
+        private: false
+      }).
+      limit(25).
+      sort({created_at: -1}).
+      select({name: 1, owner: 1, description: 1, watchers: 1}).
+      exec(console.log('fetched from db!!'));
+  return topRepos;
+}
+
 module.exports.save = save;
+module.exports.grabTopRepos = grabTopRepos;

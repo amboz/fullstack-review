@@ -1,30 +1,37 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const getUsers = require('../helpers/github.js')
+const getUsers = require('../helpers/github.js');
+const db = require('../database/index.js');
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
-// use your getReposByUsername function to fetch the specified user's Github repos,
-// then use your save function to store the repo information in database.
+// This route should take the github username provided
+// and get the repo information from the github API, then
+// save the repo information in the database
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
-
   getUsers.getReposByUsername(req.body.query);  
 
   res.status('201');
   res.end();
 });
 
+// This route should send back the top 25 repos
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+  console.log('server GET happened!!')
+  db.grabTopRepos()
+  .then((repoArr) => {
+    console.log(repoArr);
+    res.status(200).send(repoArr);
+    // return repoArr;
+  });
+
+  // res.status('200');
+  // // res.send(JSON.stringify(res));
+  // // res.send(res);
+  // res.end();
 });
 
 let port = 1128;

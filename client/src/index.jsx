@@ -12,9 +12,20 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    $.ajax('/repos', {
+      method: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        this.setState({
+          repos: data
+        })
+      }.bind(this)
+    })
+  }
+
   search (term) {
     console.log(`${term} was searched`);
-    //use jQuery's ajax method to send a POST request to /repos
     $.ajax('/repos', {
       method: 'POST',
       data: {
