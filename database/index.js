@@ -61,7 +61,7 @@ let grabTopRepos = () => {
         private: false
       }).
       limit(25).
-      sort({created_at: -1}).
+      sort({watchers: -1}).
       select({name: 1, owner: 1, description: 1, watchers: 1}).
       exec(console.log('fetched from db!!'));
   return topRepos;
