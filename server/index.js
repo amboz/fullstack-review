@@ -25,12 +25,7 @@ app.get('/repos', function (req, res) {
   .then((repoArr) => {
     console.log(repoArr);
     res.status(200).send(repoArr);
-    // return repoArr;
   });
-
-  // res.status('200');
-  // // res.send(JSON.stringify(res));
-  // // res.send(res);
   // res.end();
 });
 
