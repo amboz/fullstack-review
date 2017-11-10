@@ -26,24 +26,26 @@ class App extends React.Component {
   }
 
   search (term) {
+    let context = this;
     console.log(`${term} was searched`);
     $.ajax('/repos', {
       method: 'POST',
       data: {
         query: term
+      },
+      //perform GET request on success to update state/re-render
+      success: function() {
+        $.ajax('/repos', {
+          method: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            context.setState({
+              repos: data
+            })
+          }.bind(context)
+        })
       }
     });
-
-    // $.ajax('/repos', {
-    //   method: 'GET',
-    //   dataType: 'json',
-    //   success: function(data) {
-    //     this.setState({
-    //       repos: data
-    //     })
-    //   }.bind(this)
-    // })
-
   }
 
   render () {

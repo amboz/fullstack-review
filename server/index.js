@@ -12,10 +12,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 // and get the repo information from the github API, then
 // save the repo information in the database
 app.post('/repos', function (req, res) {
-  getUsers.getReposByUsername(req.body.query);  
+  getUsers.getReposByUsername(req.body.query)
+  .then((reposArr) => {
+    let promiseArr = [];
+    for (var i = 0; i < reposArr.length; i++) {
+      promiseArr.push(db.save(reposArr[i]));
+    }
+    Promise.all(promiseArr)
+    .then(() => {
+      console.log('doneeee');
+      res.status('201');
+      res.end();
+    })
+  })
 
-  res.status('201');
-  res.end();
+  //sending response before async fxn above complete
 });
 
 // This route should send back the top 25 repos
@@ -23,7 +34,7 @@ app.get('/repos', function (req, res) {
   console.log('server GET happened!!')
   db.grabTopRepos()
   .then((repoArr) => {
-    console.log(repoArr);
+    // console.log(repoArr);
     res.status(200).send(repoArr);
   });
   // res.end();

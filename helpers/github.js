@@ -15,16 +15,34 @@ let getReposByUsername = (username) => {
     }
   };
 
-  request(options, function(err, res, body) {
-    if (!err && res.statusCode == 200) {
-      var repos = JSON.parse(body);
-      console.log(repos);
-      console.log('repos for user', repos.length);
-      for (var i = 0; i < repos.length; i++) {
-        saveFunc.save(repos[i]);
+  return new Promise((resolve, reject) => {
+    request(options, function(err, res, body) {
+      if (!err && res.statusCode == 200) {
+        var repos = JSON.parse(body);
+        resolve(repos);
       }
-    }
+    })
   });
+  
+      // console.log(repos);
+      // console.log('repos for user', repos.length);
+
+
+      //iterate over each obj in arr
+        //create promise
+          //push to temp arr
+
+      //Promise.all(tempArr)
+        //--> resolve once all promises inside have resolved
+
+      // Promise.all(body);
+
+      // for (var i = 0; i < repos.length; i++) {
+      //   //saves each repo individually
+      //   saveFunc.save(repos[i])
+      // }
+  //   }
+  // });
 }
 
 module.exports.getReposByUsername = getReposByUsername;

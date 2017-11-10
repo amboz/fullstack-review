@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  id: Number,
+  id: {type: Number, unique: true},
   name: String,
   full_name: String,
   owner: {
@@ -47,8 +47,24 @@ let save = (repoObj) => {
   createdRepo.save(function(err) {
     if (err) {
       console.log(err);
+    } else {
+      //
     }
-  });
+  })
+  .then(() => {
+    console.log('saved');
+  })
+
+  // new Promise((resolve, reject) => {
+  //   createdRepo.save(function(err, data) {
+  //     if (err) {
+  //       reject(err);
+  //     } else {
+  //       resolve(data);
+  //     }
+  //   });
+  // })
+  
 // Ensure there are no duplicate repos. If you happen to import the same repo twice, 
 // it should only show up once in your database.
 // See the tips section about considering unique columns.
@@ -65,6 +81,14 @@ let grabTopRepos = () => {
       exec(console.log('fetched from db!!'));
   return topRepos;
 }
+
+//save
+  // promise.all (=> arr)
+    //iterate over each obj in arr
+      //save each obj to db, return promise
+
+  // new Promise(function ())
+  // var data;
 
 module.exports.save = save;
 module.exports.grabTopRepos = grabTopRepos;
